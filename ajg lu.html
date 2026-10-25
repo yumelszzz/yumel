@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101114">
+  <title>Yumel — Personal Dashboard</title>
+  <link rel="stylesheet" href="bgsttt.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-icon">◈</span>
+        <span>yumel<span class="brand-dot">.</span></span>
+      </a>
+
+      <p class="nav-label">WORKSPACE</p>
+      <nav>
+        <button class="nav-item active" data-view="dashboard">◫ <span>Dashboard</span></button>
+        <button class="nav-item" data-view="tasks">☷ <span>Semua tugas</span></button>
+        <button class="nav-item" data-view="agenda">▦ <span>Agenda</span></button>
+      </nav>
+
+      <p class="nav-label">KATEGORI</p>
+      <nav>
+        <button class="nav-item category" data-category="Kuliah"><i class="dot blue"></i><span>Kuliah</span></button>
+        <button class="nav-item category" data-category="Organisasi"><i class="dot purple"></i><span>Organisasi</span></button>
+        <button class="nav-item category" data-category="Personal"><i class="dot green"></i><span>Personal</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-profile">
+          <div class="avatar">Y</div>
+          <div><strong>My workspace</strong><small>Personal dashboard</small></div>
+        </div>
+        <button id="themeBtn" class="theme-btn">◐ <span>Ganti tema</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PERSONAL WORKSPACE</p>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <button id="topAddBtn" class="primary-btn">＋ <span>Tambah tugas</span></button>
+      </header>
+
+      <section class="welcome">
+        <div>
+          <p class="eyebrow">YOUR SPACE, YOUR FACE?!</p>
+          <h2>y, Wlc. tugas lu kerjain. <span>✦</span></h2>
+          <p>Life's must going on.</p>
+        </div>
+        <div class="welcome-symbol">◈</div>
+      </section>
+
+      <section class="stats">
+        <article class="stat-card">
+          <div class="stat-heading"><span>Total tugas</span><span>☷</span></div>
+          <strong id="totalCount">0</strong>
+          <small>Semua tugas kamu</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-heading"><span>Belum selesai</span><span>◷</span></div>
+          <strong id="pendingCount">0</strong>
+          <small>Masih dalam proses</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-heading"><span>Selesai</span><span>✓</span></div>
+          <strong id="doneCount">0</strong>
+          <small>Progress kamu</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-heading"><span>Deadline dekat</span><span>⚑</span></div>
+          <strong id="urgentCount">0</strong>
+          <small>Deadline hari ini atau besok</small>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel tasks-panel">
+          <div class="panel-heading">
+            <div><h3 id="listTitle">Tugas kamu</h3><p>Hal kecil yang bikin kamu maju.</p></div>
+            <button id="panelAddBtn" class="text-btn">＋ Tambah</button>
+          </div>
+
+          <div class="filters">
+            <input id="searchInput" type="search" placeholder="⌕ Cari tugas..." aria-label="Cari tugas">
+            <select id="statusFilter" aria-label="Filter status">
+              <option value="all">Semua status</option>
+              <option value="pending">Belum selesai</option>
+              <option value="done">Selesai</option>
+            </select>
+          </div>
+
+          <div id="taskList" class="task-list"></div>
+          <div id="emptyState" class="empty-state">
+            <div>✧</div>
+            <strong>Belum ada tugas nih</strong>
+            <p>Tambahkan tugas pertamamu, yuk.</p>
+            <button id="emptyAddBtn" class="primary-btn">＋ Buat tugas</button>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <section class="panel progress-panel">
+            <div class="panel-heading">
+              <div><h3>Progress kamu</h3><p>Satu langkah setiap hari.</p></div>
+              <span class="progress-icon">↗</span>
+            </div>
+            <div class="progress-number"><strong id="progressPercent">0%</strong><span>terselesaikan</span></div>
+            <div class="progress-track"><div id="progressBar"></div></div>
+            <p id="progressMessage" class="progress-message">Mulai dari satu tugas kecil.</p>
+          </section>
+
+          <section class="panel agenda-panel">
+            <div class="panel-heading">
+              <div><h3>Agenda terdekat</h3><p>Deadline yang perlu diingat.</p></div>
+              <span>◷</span>
+            </div>
+            <div id="agendaList" class="agenda-list"></div>
+          </section>
+
+          <section class="tip-card">
+            <span>✦ CATATAN KECIL</span>
+            <p>"Kamu nggak harus menyelesaikan semuanya hari ini. Mulai aja dulu."</p>
+          </section>
+        </div>
+      </section>
+
+      <footer>Made for your everyday life <span>✦</span> <span id="todayText"></span></footer>
+    </main>
+  </div>
+
+  <dialog id="taskDialog">
+    <form id="taskForm">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">YOUR WORKSPACE</p><h2 id="dialogTitle">Tambah tugas</h2></div>
+        <button type="button" id="closeDialog" class="close-btn" aria-label="Tutup">✕</button>
+      </div>
+
+      <label for="taskName">Nama tugas</label>
+      <input id="taskName" name="taskName" maxlength="120" required placeholder="Contoh: Kerjakan makalah">
+
+      <label for="taskCategory">Kategori</label>
+      <select id="taskCategory" name="taskCategory">
+        <option>Kuliah</option>
+        <option>Organisasi</option>
+        <option>Personal</option>
+      </select>
+
+      <label for="taskDate">Deadline <span class="optional">(opsional)</span></label>
+      <input id="taskDate" name="taskDate" type="date">
+
+      <label for="taskPriority">Prioritas</label>
+      <select id="taskPriority" name="taskPriority">
+        <option value="low">Santai</option>
+        <option value="medium" selected>Normal</option>
+        <option value="high">Penting</option>
+      </select>
+
+      <div class="dialog-actions">
+        <button type="button" id="cancelDialog" class="secondary-btn">Batal</button>
+        <button type="submit" class="primary-btn">Simpan tugas</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="peduli%20apa%20gweh.js"></script>
+</body>
+</html>
